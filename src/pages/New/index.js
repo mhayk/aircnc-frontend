@@ -1,9 +1,11 @@
 import React, { useState, useMemo } from 'react';
+import api from '../../services/api';
+
 import './styles.css';
 
 import camera from '../../assets/camera.svg';
 
-export default function New() {
+export default function New({ history }) {
   const [thumbnail, setThumbnail] = useState(null);
   const [company, setCompany] = useState('');
   const [techs, setTechs] = useState([]);
@@ -16,7 +18,23 @@ export default function New() {
     [thumbnail]
   )
 
-  function handleSubmit() {}
+  async function handleSubmit(event ) {
+    event.preventDefault();
+
+    const data = new FormData();
+    const user_id = localStorage.getItem('user');
+
+    data.append('thumbnail', thumbnail);
+    data.append('company', company);
+    data.append('techs', techs);
+    data.append('price', price);
+
+    await api.post('/spots', data, {
+      headers: { user_id }
+    })
+
+    history.push('/dashboard')
+  }
 
   return (
     <form onSubmit={handleSubmit}>
