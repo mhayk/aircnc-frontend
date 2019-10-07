@@ -32,7 +32,7 @@ export default function Dashboard() {
       </ul>
 
       <Link to="/new">
-        Add new spot
+        <button className="btn">Add new spot</button>
       </Link>
     </>
   );
